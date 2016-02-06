@@ -5,21 +5,19 @@ USE chat;
 
 CREATE TABLE messages (
   /* Describe your table here.*/
-  id int PRIMARY KEY, 
-  body varchar(200),
-  roomname int REFERENCES rooms(id),
+  id int PRIMARY KEY AUTO_INCREMENT, 
+  text varchar(200),
+  roomname varchar(200),
   username int REFERENCES users(id)
 );
 
 CREATE TABLE users (
-  id int PRIMARY KEY,
+  id int PRIMARY KEY AUTO_INCREMENT,
   user varchar(200)
 );
 
-CREATE TABLE rooms (
-  id int PRIMARY KEY,
-  room varchar(200)
-);
+-- our join will be a table with the unique message id which corresponds to each user id
+-- SELECT * FROM messages WHERE roomname=inputroom INNER JOIN users ON messages.username=users.id
 /* Create other tables and define schemas for them here! */
 
 -- a table for all messages

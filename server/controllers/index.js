@@ -5,20 +5,49 @@ var bluebird = require('bluebird');
 
 module.exports = {
   messages: {
-    get: function (req, res) {}, // a function which handles a get request for all messages
-    //normal http get stuff
-    //then feed the json to the model.messages.get
+    get: function (req, res) {
+      models.messages.get(function(err, results){
+        if(err){
+          console.log('error in the post for controller');
+          return;
+        }
+        res.json(results);
+      })
+    }, 
+    post: function (req, res) {
 
-    //request.on('data', function(err, data)).request('end', function() {
-
-      //})
-    post: function (req, res) {} // a function which handles posting a message to the database
+      models.messages.post(query, function(err, results){
+        if(err){
+          console.log('error in the post for controller');
+          return;
+        }
+        res.json(results);
+      })
+       // a function which handles posting a message to the database
+    }
   },
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: function (req, res) {
+      models.users.get(function(err, results){
+        if(err){
+          console.log('error in the post for controller');
+          return;
+        }
+        res.json(results);
+      })
+    },
+    post: function (req, res) {
+
+      models.users.post(query, function(err, results){
+        if(err){
+          console.log('error in the post for controller');
+          return;
+        }
+        res.json(results);
+      })
+    }
   }
 };
 
