@@ -3,23 +3,29 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: function (callback) {
-      var queryStr = 'select id, text, roomname from messages \
-      left outer join users on (messages.userid = userid) \
-      order by message.id desc';
+      var queryStr = 'select messages.id, messages.text, messages.roomname, users.username from messages \
+      left outer join users on (messages.userid = users.id) \
+      order by messages.id desc';
 
       db.query(queryStr, function(err, results) {
+        if(err){
+          console.log('messages get models: ' + err);
+          return;
+         }
+         
         callback(results);
       });
     }, // a function which produces all 
     post: function (data, callback) {
-      var quertyStr = 'insert into messages (text, roomname, username) \
-      values(?, (select id from users where username = ? limit 1), ?)';
-      db.connection.query(queryStr, params, function(err, result){
-         if(err){
-            console.log('error with the post connection');
-            return;
-         }
-         callback(result);
+      // var query = [ req.body['userid'], req.body['text'], req.body['roomname'] ];
+      var queryStr = 'insert into messages (userid, text, roomname) \
+      values(?, ?, ?)';
+      db.query(queryStr, data, function(err, results){
+        if(err){
+          console.log('error with the messages post connection');
+          return;
+        }
+        callback(results);
       });
     } // a function which can be used to insert a message into the database
   },
@@ -27,19 +33,25 @@ module.exports = {
   users: {
     // Ditto as above.
     get: function (callback) {
-      var quertyStr = 'SELECT * FROM users';
+      var queryStr = 'select * from users';
       db.query(queryStr, function(err, results) {
+        if(err){
+          console.log('error with the users get connection');
+          return;
+         }
         callback(results);
+        
       });
     },
     post: function (data, callback) {
-      var queryStr = 'insert into users(username) values (?)';
-      db.query(queryStr, params, function(err, result){
-         if(err){
-            console.log('error with the post connection');
-            return;
-         }
-         callback(result);
+      var queryStr = "insert into users(username) values (?)";
+      db.query(queryStr, data, function(err, results){
+        if(err){
+          console.log('users post models: ' + err);
+          return;
+        }
+        callback(results);
+
       });
     }
   }
