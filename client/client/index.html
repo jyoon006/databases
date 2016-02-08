@@ -4,33 +4,38 @@
     <meta charset="utf-8">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
-
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
-
     <script src="bower_components/underscore/underscore-min.js"></script>
-        <!-- your scripts -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/jquery-timeago/jquery.timeago.js"></script>
+    <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
-
-    <script>
-      $(app.init.bind(app));
-    </script>    <div id="main">
+    <div id="main" class="container">
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
 
-      <div class="spinner"><img src="images/spiffygif_46x46.gif"></div>
-      <div id="rooms">
-        Room:
-        <select id="roomSelect">
-        </select>
+      <div id="post-message">
+        <div id="send" class="chat input-group">
+          <div class="dropdown">
+            <button class="btn btn-default btn-block dropdown-toggle" type="button" id="rooms-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Rooms
+              <span class="caret"></span>
+            </button>
+            <ul id="roomSelect" class="dropdown-menu">
+              <li><a href="#" id="real-all">All Rooms</a></li>
+              <li role="separator" class="divider"></li>
+            </ul>
+          </div>
+          <textarea type="text" class="form-control" rows="3" id="message" placeholder="Post a message to the group"></textarea>
+          <button type="submit" class="btn btn-success submit btn-block center-block">Post</button>
+        </div>
       </div>
-      <form action="#" id="send" method="post">
-        <input type="text" name="message" id="message"/>
-        <input type="submit" name="submit" class="submit"/>
-      </form>
-      <div id="chats"></div>    </div>
+      <div id="chats"></div>
+    </div>
   </body>
 </html>

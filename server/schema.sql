@@ -17,8 +17,8 @@ CREATE TABLE messages (
   userid int,
   text varchar(200) NOT NULL,
   roomname varchar(20),
-  PRIMARY KEY (ID),
-  FOREIGN KEY (userid) REFERENCES users (id)
+  PRIMARY KEY (ID)
+  -- FOREIGN KEY (userid) REFERENCES users (id)
 );
 
 

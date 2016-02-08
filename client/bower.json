@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "dependencies": {
     "jquery": "~2.0.3",
-    "underscore": "^1.8.3"
+    "underscore": "~1.8.3",
+    "bootstrap": "~3.3.6",
+    "jquery-timeago": "timeago#~1.5.0"
   },
   "ignore": [
     "**/.*",
