@@ -7,7 +7,7 @@ module.exports = {
   messages: {
     get: function (req, res) {
       models.messages.get(function(results){
-        
+        console.log(results);
         res.json(results);
       });
     }, 
@@ -40,4 +40,3 @@ module.exports = {
     }
   }
 };
-

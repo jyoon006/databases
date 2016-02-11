@@ -2,7 +2,7 @@
 //var request = require('request');
 var app = {
   lastObjectId: 0,
-  server: 'http://127.0.0.1:3000/classes',
+  server: 'http://127.0.0.1:3000',
   username: window.location.search.replace(/(&|\?)username=/,""), 
   roomname: '',
   rooms: {},
@@ -12,22 +12,22 @@ var app = {
     $div.append(document.createTextNode(str));
     return $div.html();
     },
-  fetch: function(){
+  fetch: function(path){
     $.ajax({
-      url: app.server,
+      url: app.server + path,
       method: 'GET',
       success: function(data){
         console.log(data);
-        if (data.results[0]) {
-          for (var i = data.results.length - 1; i >= 0 ; i--) {
-            if (data.results[i].objectId > app.lastObjectId) {
-              app.addMessage(data.results[i]);
-              if(data.results[i].roomname){
-                app.addRoom(data.results[i].roomname);
+        if (data[0]) {
+          for (var i = data.length - 1; i >= 0 ; i--) {
+            if (data[i].userid > app.lastObjectId) {
+              app.addMessage(data[i]);
+              if(data[i].roomname){
+                app.addRoom(data[i].roomname);
               }            
             }
           }
-          app.lastObjectId = data.results[0].objectId;
+          app.lastObjectId = data[0].objectId;
         }
       },
       error: function(data){
@@ -50,16 +50,16 @@ var app = {
       }
     });
     setInterval(function(){
-      app.fetch()
+      app.fetch('/classes/messages')
     }, 5000);
   },
   clearMessages: function(){
     $("#chats").children().hide();
   },
-  send: function (message) {
+  send: function (message, path) {
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
-      url: app.server,
+      url: app.server + path,
       method: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json',
@@ -83,7 +83,7 @@ var app = {
     }
     var $username = $('<a href="#" class="username">' + escapedUsername +': </a>');
     var $text = $('<span>' + escapedText + '</span>');
-    var $timestamp = ('<span class="timestamp" title="' + message.createdAt + '"> · ' + jQuery.timeago(message.createdAt) + '</span>');
+    // var $timestamp = ('<span class="timestamp" title="' + message.createdAt + '"> · ' + jQuery.timeago(message.createdAt) + '</span>');
     var $message = $('<div>');
     $message.data('username', escapedUsername);
     if(escapedRoomName){
@@ -91,7 +91,7 @@ var app = {
     } else {
       $message.data('roomname', 'lobby');
     }
-    $message.append($username).append($text).append($timestamp);
+    $message.append($username).append($text);
     // append message to DOM
     $('#chats').prepend($message);
   },
@@ -107,7 +107,7 @@ var app = {
       username: app.username,
       text: $("#message").val(),
       roomname: app.roomname
-    });
+    }, '/classes/messages');
     $('#message').val("");
     $('#message').blur();
   },
